@@ -1,0 +1,9 @@
+# Ignore secret MCP config and tokens
+mcp_config.json
+.env
+
+# Dependencies
+node_modules/
+
+# Logs
+*.log
