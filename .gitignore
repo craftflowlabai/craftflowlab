@@ -1,9 +1,13 @@
 # Ignore secret MCP config and tokens
 mcp_config.json
-.env
+.env*
 
 # Dependencies
 node_modules/
+.npm-cache/
+**/*.tgz
+temp.tmp
+supabase/.temp/
 
 # Logs
 *.log

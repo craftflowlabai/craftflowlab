@@ -1,0 +1,3 @@
+export default function AdminSettingsPage() {
+  return <><div className="dashboard-top"><div><span className="eyebrow">Studio preferences</span><h1 className="page-title">Settings.</h1><p className="page-intro">The demo’s studio identity and booking defaults.</p></div></div><section className="panel settings-panel"><div><span className="hint">STUDIO NAME</span><strong>Studio North · Sofia</strong></div><div><span className="hint">DEFAULT TIMEZONE</span><strong>Europe/Sofia</strong></div><div><span className="hint">PAYMENTS</span><strong>Offline only · no online payment processing</strong></div><p className="hint">These values can be moved into editable settings when the demo needs multi-studio support.</p></section></>;
+}
