@@ -22,8 +22,8 @@ export function UserMenu({ name, email, avatarPath, role }: UserMenuProps) {
           if (!event.currentTarget.parentElement?.contains(event.relatedTarget as Node)) setOpen(false);
         }}
       >
-        <span className="profile-avatar" style={avatarUrl ? { backgroundImage: `url("${avatarUrl}")` } : undefined}>
-          {!avatarUrl && initials(name, email)}
+        <span className="profile-avatar" aria-label={avatarUrl ? "Profile photo" : "Profile photo placeholder"}>
+          {avatarUrl ? <img src={avatarUrl} alt="" /> : initials(name, email)}
         </span>
         <span>{name?.trim() || "My profile"}</span><ChevronDown aria-hidden="true" />
       </button>
@@ -37,3 +37,4 @@ export function UserMenu({ name, email, avatarPath, role }: UserMenuProps) {
     </div>
   );
 }
+

@@ -1,6 +1,7 @@
 "use client";
 
 import { FormEvent, useState } from "react";
+import { useRouter } from "next/navigation";
 import { Camera, Check, LoaderCircle, Save } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 
@@ -9,19 +10,18 @@ type ProfileFormProps = {
   email: string;
   initialName: string;
   initialPhone: string;
-  initialAvatarPath: string | null;
   initialAvatarUrl: string | null;
 };
 
-export function ProfileForm({ userId, email, initialName, initialPhone, initialAvatarPath, initialAvatarUrl }: ProfileFormProps) {
+export function ProfileForm({ userId, email, initialName, initialPhone, initialAvatarUrl }: ProfileFormProps) {
   const [name, setName] = useState(initialName);
   const [phone, setPhone] = useState(initialPhone);
-  const [avatarPath, setAvatarPath] = useState(initialAvatarPath);
   const [avatarUrl, setAvatarUrl] = useState(initialAvatarUrl);
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
   const supabase = createClient();
+  const router = useRouter();
 
   async function saveProfile(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -35,15 +35,20 @@ export function ProfileForm({ userId, email, initialName, initialPhone, initialA
   async function uploadAvatar(event: React.ChangeEvent<HTMLInputElement>) {
     const file = event.target.files?.[0];
     if (!file) return;
+    event.target.value = "";
+    if (!["image/jpeg", "image/png", "image/webp"].includes(file.type)) { setError("Choose a JPG, PNG, or WebP image."); return; }
     if (file.size > 5 * 1024 * 1024) { setError("Choose an image smaller than 5 MB."); return; }
     setBusy(true); setMessage(""); setError("");
     const nextPath = `${userId}/${crypto.randomUUID()}.${file.name.split(".").pop()?.toLowerCase() || "jpg"}`;
     const { error: uploadError } = await supabase.storage.from("avatars").upload(nextPath, file, { upsert: false, contentType: file.type, cacheControl: "3600" });
     if (uploadError) { setError(uploadError.message); setBusy(false); return; }
     const { error: updateError } = await supabase.from("profiles").update({ avatar_path: nextPath }).eq("id", userId);
-    if (updateError) { setError(updateError.message); setBusy(false); return; }
+    if (updateError) {
+      await supabase.storage.from("avatars").remove([nextPath]);
+      setError(updateError.message); setBusy(false); return;
+    }
     const { data } = supabase.storage.from("avatars").getPublicUrl(nextPath);
-    setAvatarPath(nextPath); setAvatarUrl(data.publicUrl); setMessage("Profile photo updated."); setBusy(false);
+    setAvatarUrl(data.publicUrl); setMessage("Profile photo updated."); setBusy(false); router.refresh();
   }
 
   const fallback = (name.trim() || email.split("@")[0] || "M").split(/[\s._-]+/).slice(0, 2).map((part) => part[0]?.toUpperCase()).join("");
@@ -51,7 +56,9 @@ export function ProfileForm({ userId, email, initialName, initialPhone, initialA
   return (
     <div className="profile-layout">
       <aside className="panel profile-summary">
-        <span className="profile-avatar large" style={avatarUrl ? { backgroundImage: `url("${avatarUrl}")` } : undefined}>{!avatarUrl && fallback}</span>
+        <span className="profile-avatar large" aria-label={avatarUrl ? "Current profile photo" : "Profile photo placeholder"}>
+          {avatarUrl ? <img src={avatarUrl} alt="Your profile" onError={() => setAvatarUrl(null)} /> : fallback}
+        </span>
         <h2>{name.trim() || "Your profile"}</h2>
         <p>{email}</p>
         <label className="button button-light" style={{ width: "max-content", minHeight: 38, padding: "0 13px", fontSize: 11, cursor: "pointer" }}>
@@ -70,8 +77,8 @@ export function ProfileForm({ userId, email, initialName, initialPhone, initialA
           </div>
           <div className="profile-edit-footer"><span className={`form-message${error ? " error" : ""}`} aria-live="polite">{error || message}</span><button className="button" type="submit" disabled={busy}>{busy ? <LoaderCircle className="spin" aria-hidden="true" /> : message ? <Check aria-hidden="true" /> : <Save aria-hidden="true" />}{busy ? "Saving…" : "Save changes"}</button></div>
         </form>
-        {avatarPath && <span className="hint" style={{ display: "none" }}>{avatarPath}</span>}
       </section>
     </div>
   );
 }
+

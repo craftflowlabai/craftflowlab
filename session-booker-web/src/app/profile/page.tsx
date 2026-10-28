@@ -16,8 +16,9 @@ export default async function ProfilePage() {
     <main className="page-shell"><SiteHeader /><section className="content-page">
       <Link className="text-link" href="/" style={{ display: "inline-flex", alignItems: "center", gap: 7 }}><ArrowLeft aria-hidden="true" style={{ width: 15 }} /> Back to home</Link>
       <div style={{ marginTop: 28 }}><span className="eyebrow">Your account</span><h1 className="page-title">Profile</h1><p className="page-intro">Keep your details up to date. Your profile works the same way across your account, whatever your role.</p></div>
-      <ProfileForm userId={user.id} email={user.email || ""} initialName={profile?.full_name || user.user_metadata?.full_name || ""} initialPhone={profile?.phone || ""} initialAvatarPath={profile?.avatar_path || null} initialAvatarUrl={getAvatarUrl(profile?.avatar_path)} />
+      <ProfileForm userId={user.id} email={user.email || ""} initialName={profile?.full_name || user.user_metadata?.full_name || ""} initialPhone={profile?.phone || ""} initialAvatarUrl={getAvatarUrl(profile?.avatar_path)} />
       <div className="profile-status-row"><div><span className="hint">ACCOUNT ROLE</span><div style={{ marginTop: 7 }}><span className="role-pill">{role}</span></div></div><div><span className="hint">ACCOUNT STATUS</span><div style={{ marginTop: 7 }}><span className="status-pill">{profile?.account_status || "active"}</span></div></div><div className="profile-next"><Link className="text-link" href={role === "admin" ? "/admin" : "/client"}>{role === "admin" ? "Open admin area" : "Open my bookings"} →</Link></div></div>
     </section></main>
   );
 }
+
