@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { ChevronDown, LogOut, UserRound } from "lucide-react";
+import { ChevronDown, LayoutDashboard, LogOut, ShieldCheck, UserRound } from "lucide-react";
 import { getAvatarUrl, initials } from "@/lib/format";
 
 type UserMenuProps = { name: string | null; email: string; avatarPath: string | null; role: string };
@@ -10,6 +10,7 @@ type UserMenuProps = { name: string | null; email: string; avatarPath: string | 
 export function UserMenu({ name, email, avatarPath, role }: UserMenuProps) {
   const [open, setOpen] = useState(false);
   const avatarUrl = getAvatarUrl(avatarPath);
+  const isAdmin = role === "admin";
   return (
     <div className="user-menu">
       <button
@@ -31,6 +32,7 @@ export function UserMenu({ name, email, avatarPath, role }: UserMenuProps) {
         <div className="dropdown-panel" role="menu">
           <div className="dropdown-user"><strong>{name?.trim() || "Northform member"}</strong><span>{role} · {email}</span></div>
           <Link className="dropdown-link" href="/profile" role="menuitem" onClick={() => setOpen(false)}><UserRound aria-hidden="true" /> Profile</Link>
+          <Link className="dropdown-link" href={isAdmin ? "/admin" : "/dashboard"} role="menuitem" onClick={() => setOpen(false)}>{isAdmin ? <ShieldCheck aria-hidden="true" /> : <LayoutDashboard aria-hidden="true" />}{isAdmin ? "Admin" : "Dashboard"}</Link>
           <form action="/auth/signout" method="post"><button className="dropdown-link danger" type="submit" role="menuitem"><LogOut aria-hidden="true" /> Log Out</button></form>
         </div>
       )}

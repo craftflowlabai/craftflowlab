@@ -273,3 +273,31 @@ Preserve the landing page's visual identity across dashboards. Reuse existing co
 - Trainer/team accounts, multiple staff calendars, and role-specific permissions beyond a single admin role.
 - Client progress notes, workout plans, and secure document uploads.
 - Analytics exports and recurring operational email reports.
+
+## 12. Implementation update — admin workspace preview
+
+The first runnable portfolio implementation now includes the core admin and client workspace surfaces. Use the current app routes as the source of truth; planned routes above that do not exist yet remain future work.
+
+- Admin navigation is a persistent sidebar on desktop and a horizontally scrollable navigation row on small screens, with breadcrumbs on admin pages.
+- `/admin` shows period-filtered summary cards, common quick actions, and recent bookings.
+- `/admin/sessions` supports creating, editing, publishing/cancelling, and deleting sessions when no booking history exists; `/admin/sessions/categories` manages session categories/types and defaults.
+- `/admin/calendar` shows month navigation, session capacity, and booking attendees by day.
+- `/admin/bookings` supports creating a booking for a client, searching/filtering records, and updating booking status. Database RPC checks capacity atomically and records booking/audit events.
+- `/admin/clients` supports searching/filtering people, viewing booking history, editing name/phone, and changing role/account access with an audit reason.
+- `/admin/settings` shows the initial studio defaults. User profile and booking pages remain available through role-aware navigation.
+- In-app booking notifications are persisted and can be enabled as live Realtime updates. Browser desktop alerts are optional and require the user's consent.
+
+### Brand implementation notes
+
+Continue to follow the existing Northform landing page rather than introducing a second visual identity. Keep the warm off-white surfaces, deep green ink, muted sage accents, fine gray-green borders, rounded cards, compact uppercase eyebrow labels, and restrained motion already used by the landing page. The admin area reuses these colors and the same profile dropdown/header. Use lucide icons, consistent button hierarchy, and top-left toast placement. On small screens, preserve access to profile/dashboard/admin navigation and let wide data tables scroll horizontally. Use dialogs for confirmation and compact edits; keep primary workflows on dedicated pages. Avoid skeleton loaders for this phase; favor stable empty states and native short loading feedback while data requests are pending.
+
+### Implemented now / next
+
+- [x] Responsive admin sidebar, header profile access, role-aware Dashboard/Admin menu entries, and breadcrumbs.
+- [x] Session and session-type create/read/update/delete flows with history-preserving deletion constraints.
+- [x] Booking create/status management, capacity-safe admin booking RPC, in-app notifications, and notification audit trail.
+- [x] Client search, profile details, booking history, and audited role/account moderation.
+- [x] Calendar, dashboard period filter, quick actions, responsive table/filter states.
+- [ ] Recurring availability rules and exception management; the current calendar displays concrete session instances.
+- [ ] Reporting exports, editable studio settings, email notifications, and storage/media policy UI.
+- [ ] Full browser/device accessibility review and deployment smoke check after publishing.
