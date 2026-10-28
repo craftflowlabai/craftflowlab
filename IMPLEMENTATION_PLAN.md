@@ -283,7 +283,7 @@ The first runnable portfolio implementation now includes the core admin and clie
 - `/admin/sessions` supports creating, editing, publishing/cancelling, and deleting sessions when no booking history exists; `/admin/sessions/categories` manages session categories/types and defaults.
 - `/admin/calendar` shows month navigation, session capacity, and booking attendees by day.
 - `/admin/bookings` supports creating a booking for a client, searching/filtering records, and updating booking status. Database RPC checks capacity atomically and records booking/audit events.
-- `/admin/clients` supports searching/filtering people, viewing booking history, editing name/phone, and changing role/account access with an audit reason.
+- `/admin/clients` supports inviting a person by email, searching/filtering people, viewing booking history, editing name/phone, and changing role/account access with an audit reason. Invited accounts begin as `user`; the first booking promotes them to `client`.
 - `/admin/settings` shows the initial studio defaults. User profile and booking pages remain available through role-aware navigation.
 - In-app booking notifications are persisted and can be enabled as live Realtime updates. Browser desktop alerts are optional and require the user's consent.
 
@@ -296,8 +296,9 @@ Continue to follow the existing Northform landing page rather than introducing a
 - [x] Responsive admin sidebar, header profile access, role-aware Dashboard/Admin menu entries, and breadcrumbs.
 - [x] Session and session-type create/read/update/delete flows with history-preserving deletion constraints.
 - [x] Booking create/status management, capacity-safe admin booking RPC, in-app notifications, and notification audit trail.
-- [x] Client search, profile details, booking history, and audited role/account moderation.
+- [x] Client invitation, search, profile details, booking history, and audited role/account moderation. Hard deletion is avoided so account and booking history remain traceable.
 - [x] Calendar, dashboard period filter, quick actions, responsive table/filter states.
 - [ ] Recurring availability rules and exception management; the current calendar displays concrete session instances.
 - [ ] Reporting exports, editable studio settings, email notifications, and storage/media policy UI.
 - [ ] Full browser/device accessibility review and deployment smoke check after publishing.
+
