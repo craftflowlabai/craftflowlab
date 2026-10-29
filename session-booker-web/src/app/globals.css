@@ -343,6 +343,19 @@ a:focus-visible, button:focus-visible, summary:focus-visible, input:focus-visibl
 .method-number { flex-basis: 30px; height: 30px; background: #c5df9a; }
 .method-item h3 { font-size: 13px; }
 .method-item p { color: #bac8bc; font-size: 10px; line-height: 1.65; }
+.studio-section { display: grid; grid-template-columns: minmax(0, 1.03fr) minmax(0, .97fr); align-items: center; gap: clamp(35px, 8vw, 112px); }
+.studio-photo { position: relative; min-height: 440px; margin: 0; overflow: hidden; border-radius: 15px 15px 82px 15px; background: #dbe3d8; }
+.studio-photo::after { position: absolute; inset: 45% 0 0; content: ""; background: linear-gradient(transparent, rgba(18, 31, 25, .62)); }
+.studio-photo img { object-fit: cover; object-position: 44% center; }
+.studio-photo figcaption { position: absolute; z-index: 1; bottom: 20px; left: 22px; display: inline-flex; align-items: center; gap: 7px; color: #fff; font-size: 8px; font-weight: 800; letter-spacing: .16em; }
+.studio-photo figcaption svg { width: 14px; height: 14px; }
+.studio-copy h2 { max-width: 520px; margin: 15px 0; font-family: var(--font-serif); font-size: clamp(38px, 4.5vw, 58px); font-weight: 500; line-height: 1.02; letter-spacing: -.05em; }
+.studio-copy > p { max-width: 480px; color: #6e7c73; font-size: 12px; line-height: 1.85; }
+.studio-details { display: grid; gap: 0; max-width: 450px; margin: 25px 0 20px; border-top: 1px solid #e0e3da; }
+.studio-details span { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid #e0e3da; color: #6b796f; font-size: 10px; font-weight: 700; }
+.studio-details strong { color: #819166; font-size: 8px; letter-spacing: .12em; }
+.studio-copy .text-link { display: inline-flex; align-items: center; gap: 8px; }
+.studio-copy .text-link svg { width: 14px; height: 14px; }
 
 .faq-section { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); gap: clamp(35px, 8vw, 115px); }
 .faq-intro h2 { max-width: 460px; margin-bottom: 16px; }
@@ -494,6 +507,8 @@ a:focus-visible, button:focus-visible, summary:focus-visible, input:focus-visibl
   .sessions-section { padding-top: 66px; }
   .session-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .faq-section { grid-template-columns: 1fr; gap: 27px; }
+  .studio-section { grid-template-columns: 1fr; gap: 28px; }
+  .studio-photo { min-height: clamp(300px, 68vw, 430px); }
   .closing-cta { align-items: flex-start; flex-direction: column; margin: 0 22px 32px; padding: 26px; }
   .footer { align-items: flex-start; gap: 20px; padding: 28px 22px; }
   .footer-nav { gap: 14px; }
@@ -522,6 +537,7 @@ a:focus-visible, button:focus-visible, summary:focus-visible, input:focus-visibl
   .session-card { min-height: 320px; }
   .method-section { display: grid; }
   .method-list { margin-top: 0; }
+  .studio-photo { min-height: 275px; }
   .footer-nav { display: grid; grid-template-columns: 1fr 1fr; }
   .sessions-page { padding: 25px 18px 58px; }
   .sessions-hero .page-title { font-size: clamp(45px, 13vw, 62px); }

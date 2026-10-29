@@ -77,7 +77,7 @@ export default async function Home() {
         </figure>
       </section>
 
-      <div className="trust-strip" id="studio">
+      <div className="trust-strip">
         <strong>Training with room to be yourself.</strong>
         <span>ONE-TO-ONE COACHING</span>
         <span>SMALL GROUPS</span>
@@ -118,6 +118,14 @@ export default async function Home() {
           <div className="method-item"><span className="method-number">02</span><div><h3>Get coaching that listens</h3><p>Move through sessions with clear guidance and room to adjust.</p></div></div>
           <div className="method-item"><span className="method-number">03</span><div><h3>Keep the rhythm going</h3><p>Find a pace that feels sustainable and celebrate the small wins.</p></div></div>
         </div>
+      </section>
+
+      <section className="section studio-section" id="studio">
+        <figure className="studio-photo">
+          <Image src="/images/northform-coach-hero.jpg" alt="A coach guiding a client in the Studio North training space" fill sizes="(max-width: 760px) 100vw, 46vw" />
+          <figcaption><MapPin aria-hidden="true" /> STUDIO NORTH · SOFIA</figcaption>
+        </figure>
+        <div className="studio-copy"><span className="eyebrow">A welcoming place to train</span><h2>Your training home in Sofia.</h2><p>Studio North is the home base for personal coaching and small-group sessions. Each session listing shows its location, time, format, and available places before you book.</p><div className="studio-details"><span><strong>01</strong> Training in Sofia</span><span><strong>02</strong> Session details up front</span></div><Link className="text-link" href="/sessions">Find your way to a session <ArrowRight aria-hidden="true" /></Link></div>
       </section>
 
       <section className="section faq-section">
