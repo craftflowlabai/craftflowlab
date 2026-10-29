@@ -69,7 +69,7 @@ export default async function Home() {
             src="/images/northform-coach-hero.jpg"
             alt="A coach guiding a client through a strength exercise in a bright studio"
             fill
-            priority
+            loading="eager"
             sizes="(max-width: 680px) 100vw, 52vw"
           />
           <span className="visual-label"><MapPin aria-hidden="true" /> STUDIO NORTH · SOFIA</span>

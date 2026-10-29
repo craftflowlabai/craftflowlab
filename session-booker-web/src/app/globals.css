@@ -398,6 +398,12 @@ a:focus-visible, button:focus-visible, summary:focus-visible, input:focus-visibl
 .sessions-list-heading h2 { margin: 9px 0 0; font-size: 36px; }
 .sessions-list-heading p { max-width: 310px; margin: 0 0 3px; color: #748076; font-size: 10px; line-height: 1.7; }
 .bookable-session { display: flex; flex-direction: column; }
+.bookable-session:nth-child(2) .session-art { background: linear-gradient(135deg, #e8dacf, #f0e8dc); }
+.bookable-session:nth-child(2) .session-art::before { background: #ead0b7; }
+.bookable-session:nth-child(2) .session-art::after { background: #6c5647; }
+.bookable-session:nth-child(3) .session-art { background: linear-gradient(135deg, #d9e5e0, #ebeee6); }
+.bookable-session:nth-child(3) .session-art::before { background: #bfd5ce; }
+.bookable-session:nth-child(3) .session-art::after { background: #435f58; }
 .bookable-session .session-card { flex: 1; }
 .bookable-session .book-action { margin-top: 10px; }
 .bookable-session .book-action .button { min-height: 43px; }
