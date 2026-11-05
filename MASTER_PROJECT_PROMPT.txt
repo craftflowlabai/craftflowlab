@@ -1,0 +1,124 @@
+SESSION BOOKER PRO — UNIFIED PROJECT PROMPT
+==========================================
+
+Use this document as the consolidated project brief for Session Booker Pro. It combines the implementation requirements and refinements given during the conversation. Keep the existing landing-page branding and working features. The site is a portfolio/demo project, not a production service for a real business or a specific client.
+
+PROJECT / WORKFLOW CONTEXT
+--------------------------
+- Repository: https://github.com/craftflowlabai/craftflowlab
+- Existing GitHub issue: #1 — Session capacity defaults and admin detail/filter workflows
+  https://github.com/craftflowlabai/craftflowlab/issues/1
+- Existing feature branch: feature/issue-1-session-capacity-admin-details
+- The branch was created from main. Continue on this branch; do not create a duplicate issue or branch.
+- Stack: Next.js app hosted on Vercel; Supabase provides Postgres, Auth, Row Level Security, Storage, Realtime, and Edge Functions.
+- Never expose service-role keys or other secrets to the browser or commit them.
+- Payments are handled offline only. Do not add online payment collection now. Stripe may be considered later.
+- Preserve existing logout behavior and existing working features.
+
+OVERALL PRODUCT GOAL
+--------------------
+Build a polished personal-trainer session-booking app with public pages, user profiles, client booking tools, and role-protected admin dashboards. Admins should manage the session catalog, scheduled sessions, clients, bookings, availability, settings, and reports. Users can create accounts, maintain profiles, and manage their bookings.
+
+AUTHENTICATION, PROFILES, AND NAVIGATION
+----------------------------------------
+- Provide profile, signup, login, and logout experiences.
+- Provide a profile page for users of every role.
+- In the site header, show a profile button with the user's image when available and a placeholder otherwise. Clicking it opens a dropdown with Profile and Log Out; preserve the current logout implementation.
+- Allow users to upload/change their profile photo and keep the saved profile and header avatar synchronized.
+- Show role-appropriate navigation: Dashboard for users/clients and Admin for admins, in desktop dropdowns and mobile navigation.
+- New signups start with role `user`. A user remains `user` until the first successful booking, when the account is promoted to `client` according to the existing booking policy.
+- Admins can change roles and account access, reject or ban users, and restore access. Keep role and account status separate. Do not let a user grant themselves a role or change their own moderation state.
+
+CLIENT EXPERIENCE
+-----------------
+- Provide a client dashboard and booking-management page with upcoming and past bookings, booking status, and allowed cancellation actions.
+- Users can manage only their own bookings and profile.
+- Preserve booking history and show useful empty, loading, success, and error states.
+
+ADMIN WORKSPACE AND UX
+----------------------
+- Use dedicated pages with a persistent left sidebar for user-specific/admin work. Use dialogs/modals for confirmations and compact edits/details; do not make primary workflows modal-only.
+- Keep the admin header/profile dropdown visually consistent with the public landing page.
+- Use breadcrumbs on admin pages.
+- Use clear summary cards, period indicators/date filters, contextual quick actions, and recent activity on the admin overview.
+- Keep toast notifications at the top-left of the screen.
+- Use responsive layouts; tables may scroll horizontally on small screens.
+- Keep the Northform visual identity from the current landing page: warm off-white surfaces, deep green ink, muted sage/green accents, fine gray-green borders, rounded cards, compact uppercase eyebrow labels, Lucide icons, restrained hover motion, and consistent button styles. Glass-like card treatments and subtle hover/fade effects are acceptable when they fit this system.
+- Do not add skeleton loaders for this phase; stable empty states and concise loading feedback are preferred.
+
+SESSION CATALOG AND SCHEDULING
+------------------------------
+- Admins need CRUD for session categories, reusable session types/templates, and scheduled session instances.
+- Categories are separate records in `session_categories`; three core categories are already seeded:
+  1. Strength Training — focused on resistance training and weightlifting.
+  2. HIIT & Cardio — high-intensity intervals/cardio for cardiovascular fitness and fat loss.
+  3. Yoga & Mobility — flexibility, balance, mobility, and recovery.
+- `session_types.default_capacity` already exists and is the template capacity. Do not add a duplicate capacity field/column unless a distinct business meaning is established. Preserve existing values when changing the UI/schema.
+- Session type/template create UI must show a capacity input initially empty; editing must prefill the saved capacity. Show capacity in the template list/table.
+- When scheduling a new session and selecting a template, prefill the scheduled session's max slots from `default_capacity`. Allow an admin to override the value for that scheduled instance.
+- Session types should capture title, description, category, duration, default capacity, default price, active state, and other useful basic fields.
+- Scheduled sessions should capture title, description, session type, start/end time, timezone, max slots, price/currency snapshot, location, status, and cancellation reason/time as appropriate.
+- Show the session description during both creation and editing. In the active-sessions table add a Description column immediately after the Session column.
+- Support draft/published/cancelled/completed states; cancellation should retain a reason and timestamp. Preserve session history when bookings exist.
+- Keep the sessions list and calendar views synchronized.
+- Availability should support active periods/ongoing rules, recurring availability where appropriate, and date-specific exceptions/closures. Keep concrete scheduled sessions as the bookable occurrences and prevent duplicate/conflicting slots.
+
+ADMIN SESSION / CLIENT DETAIL FLOWS AND FILTERING
+------------------------------------------------
+- On the Sessions tab, follow the search/filter visual and interaction patterns used on Clients and Bookings.
+- Clicking a session row should open a view/detail modal. Put session actions inside the detail modal, and replace the row's action icons with one view icon.
+- Clicking a client row should open the client view/detail modal. Keep profile and moderation actions available inside that view. The directory should support search and role/account-status filters.
+- Add session filters for status, session type, and date. Include icon-based common date-range shortcuts plus a custom from/to range. Filters should work together.
+- Client details should show contact/profile data and booking history. Support profile edits and audited role/access changes.
+
+BOOKINGS
+--------
+- Provide a searchable/filterable booking ledger with calendar and list views.
+- Admins can create/manage bookings, inspect client/session details, and change booking lifecycle state (pending, confirmed, cancelled, rejected, completed, no-show where supported).
+- Booking creation must check account eligibility, duplicates, and session capacity atomically. When an admin selects a client/session, the booking should be saved with the correct price snapshot.
+- Require and preserve reasons for admin cancellation/rejection where appropriate; write a booking event/audit record for every state transition.
+- Do not hard-delete booking history. Do not add online payment processing; display offline payment context only if needed.
+
+DATA, HISTORY, SECURITY, AND NOTIFICATIONS
+------------------------------------------
+- Supabase is the backend for database, auth, storage, and realtime features.
+- Keep RLS enabled and restrict catalog writes, global bookings/client history, moderation, and audit logs to authorized admins. Clients see only their own private records. Public visitors may browse only published sessions and active catalog entries.
+- Use secured server/RPC/Edge Function operations for privileged actions; authorization must be checked on the server/database, not only in the UI.
+- Preserve login/auth history where configured, session change history, booking event history, and admin audit history. Redact secrets and unnecessary personal data from logs.
+- Existing in-app booking notifications and opt-in Supabase Realtime updates are already implemented. Optional browser desktop alerts require user permission. Keep this behavior and avoid duplicating it.
+- Maintain the avatar storage policies and current profile-photo functionality.
+
+ADMIN PAGES / ROUTES
+--------------------
+Maintain or complete these page areas as appropriate to the existing routing:
+- Public: `/`, `/sessions`, `/profile`, `/login`, `/signup`
+- Client: `/client` or `/dashboard` role redirect, booking management
+- Admin: `/admin`, `/admin/sessions`, session categories/templates, `/admin/calendar`, `/admin/bookings`, `/admin/clients`, `/admin/reports`, `/admin/settings`, and an audit-history view when included in scope.
+
+REPORTING AND SETTINGS
+----------------------
+- Admin overview should provide reporting periods (for example 7/30/90 days), session/booking/client summaries, quick links/actions, and recent bookings.
+- Reports may include booking counts, attendance, capacity utilization, cancellations, and clearly labeled offline revenue estimates.
+- Settings should show studio name, timezone, booking/cancellation defaults, and notification choices. Keep payment handling offline.
+
+CURRENT ISSUE #1 IMPLEMENTATION SCOPE
+-------------------------------------
+Prioritize the following items on the existing feature branch:
+1. Make session type capacity input blank on create and prefilled on edit; show capacity in the template table/list; ensure selecting a type pre-fills scheduled session capacity.
+2. Ensure session description is visible in create/edit UI and add it as a table column after the session name.
+3. Make session rows open a detail modal with actions; use a single view icon in the table instead of action icons.
+4. Make client rows open their detail modal and keep actions available inside it.
+5. Add combined session filters for status, type, common date ranges, and custom date range.
+6. Preserve the existing categories table, its three seeded categories, RLS, profile photo, and Realtime notification behavior.
+
+DELIVERY EXPECTATIONS
+---------------------
+- Inspect the existing schema and app before editing; avoid duplicate fields or duplicate functionality.
+- Implement only within the existing project patterns and brand system.
+- Keep changes on `feature/issue-1-session-capacity-admin-details` and keep GitHub issue #1 as the tracking issue.
+- After implementation, run the production build, document any remaining limitations, commit/sync the work to GitHub, and verify the Vercel deployment is READY before sharing a preview URL.
+- Do not introduce Stripe or online payments.
+
+DASHBOARD KPI NOTE FROM THE FOLLOW-UP PROMPT
+--------------------------------------------
+- The current dashboard card counts scheduled live session slots/events. Keep that interpretation unless the user explicitly chooses Total Bookings instead; do not silently change the metric.
