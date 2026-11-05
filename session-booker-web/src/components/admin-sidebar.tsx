@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { CalendarDays, ClipboardList, LayoutDashboard, Tags, Users } from "lucide-react";
+import { CalendarDays, ClipboardList, Headset, LayoutDashboard, Tags, Users } from "lucide-react";
 
 const links = [
   { href: "/admin", label: "Overview", icon: LayoutDashboard, exact: true },
@@ -11,6 +11,7 @@ const links = [
   { href: "/admin/calendar", label: "Calendar", icon: CalendarDays },
   { href: "/admin/clients", label: "Clients", icon: Users },
   { href: "/admin/bookings", label: "Bookings", icon: ClipboardList },
+  { href: "/admin/receptionist", label: "AI Receptionist", icon: Headset },
 ];
 
 export function AdminSidebar() {

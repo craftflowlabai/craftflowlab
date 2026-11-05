@@ -20,7 +20,7 @@ export async function SiteHeader() {
   return (
     <header className="site-header">
       <Brand />
-      <nav className="header-links" aria-label="Main navigation"><Link href="/sessions">Sessions</Link><a href="/#approach">Approach</a><a href="/#studio">The studio</a></nav>
+      <nav className="header-links" aria-label="Main navigation"><Link href="/sessions">Sessions</Link><Link href="/ai-receptionist">AI Receptionist</Link><Link href="/#approach">Approach</Link><Link href="/#studio">The studio</Link></nav>
       <div className="header-actions">
         {user ? <><NotificationCenter userId={user.id} initialItems={notifications} /><UserMenu name={profile?.full_name || null} email={user.email || ""} avatarPath={profile?.avatar_path || null} role={profile?.role || "user"} /></> : <><Link className="text-link desktop-login" href="/login">Log in</Link><Link className="button desktop-book" href="/sessions">Book a session <ArrowUpRight aria-hidden="true" /></Link></>}
         <MobileMenu role={profile?.role || null} />

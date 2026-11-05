@@ -84,6 +84,29 @@ export default async function Home() {
         <span>STUDIO NORTH · SOFIA</span>
       </div>
 
+      <section className="project-showcase" aria-labelledby="projects-title">
+        <div className="section-heading project-showcase-heading">
+          <div><span className="eyebrow">CraftflowLab · Selected work</span><h2 id="projects-title">Two tools, one better client experience.</h2></div>
+          <p>Explore the booking website and its AI-powered receptionist. Each preview shows the product interface.</p>
+        </div>
+        <div className="project-grid">
+          <article className="project-card">
+            <Link className="project-preview" href="/" aria-label="Open the Session Booker website">
+              <Image src="/images/session-booker-preview.svg" alt="Preview of the Session Booker website interface, showing its navigation, coaching introduction and session cards" fill sizes="(max-width: 760px) 100vw, 50vw" />
+              <span className="project-preview-label">WEBSITE · SESSION BOOKER</span>
+            </Link>
+            <div className="project-card-copy"><div><span className="eyebrow">01 · Booking website</span><h3>Session Booker Pro</h3><p>A calm, simple way to explore coaching and reserve a session.</p></div><Link className="text-link" href="/sessions">Explore sessions <ArrowRight aria-hidden="true" /></Link></div>
+          </article>
+          <article className="project-card">
+            <Link className="project-preview project-preview-dark" href="/ai-receptionist" aria-label="Open the AI Receptionist application">
+              <Image src="/images/receptionist-app-preview.svg" alt="Preview of the AI Receptionist application interface, showing its workspace navigation and customer chat" fill sizes="(max-width: 760px) 100vw, 50vw" />
+              <span className="project-preview-label">APPLICATION · AI RECEPTIONIST</span>
+            </Link>
+            <div className="project-card-copy"><div><span className="eyebrow">02 · Customer support app</span><h3>AI Receptionist</h3><p>A 24/7 assistant that answers questions, checks availability, and helps people book.</p></div><Link className="text-link" href="/ai-receptionist">Try the live demo <ArrowRight aria-hidden="true" /></Link></div>
+          </article>
+        </div>
+      </section>
+
       <section className="section offerings-section" id="approach">
         <div className="section-heading">
           <div><span className="eyebrow">Find your starting point</span><h2>Training that fits your life.</h2></div>
